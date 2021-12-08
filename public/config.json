@@ -1,0 +1,79 @@
+{
+    "viewConfiguration": {
+        "headerEnabled": true,
+        "footerEnabled": false,
+        "groupingEnabled": true,
+        "sortingEnabled": true,
+        "selectionMode": 2,
+        "filteringEnabled": true,
+        "columnResizingEnabled": true,
+        "groupBy": ["author"],
+        "groupsCollapsedByDefault": true,
+        "sortBy": ["id"],
+        "downloadConfiguration": {
+            "includeFilePath": 3,
+            "downloadReference": ["download_url"],
+            "fileNameFromUrl": true,
+            "applyFileExtension": true
+        },
+        "columns": [
+                    {
+                        "Header": "Author",
+                        "accessor": "author",
+                        "styles": {
+                            "cellTitle": {
+                                "fontWeight": 800
+                            },
+                            "cell": {
+                                "fontWeight": 800,
+                                "color": "#f00"
+                            },
+                            "minWidth": 250
+                        }
+                    },
+                    {
+                        "Header": "ID",
+                        "accessor": "id",
+                        "multiline": true,
+                        "styles": {
+                            "cellTitle": {
+                                "fontWeight": 800
+                            },
+                            "minWidth": 150
+                        }
+                    },
+                    {
+                        "Header": "Bild",
+                        "accessor": "download_url",
+                        "dataType": "image",
+                        "styles": {
+                            "cellTitle": {
+                                "fontWeight": 800
+                            },
+                            "minWidth": 500
+                        },
+                        "image": {
+                            "width": "auto",
+                            "height": "500px"
+                        }
+                    },
+                    {
+                        "Header": "HD Bild",
+                        "accessor": "url",
+                        "dataType": "hyperlink",
+                        "cellStyle": {
+                            "fontWeight": 800
+                        },
+                        "hyperlink": {
+                            "cellReference": "author"
+                        }
+                    }
+
+        ]
+    },
+    "endpoint": "https://picsum.photos/v2/list",
+    "endpointPayload": {
+        "limit": 20,
+        "page": 2
+    }
+}
