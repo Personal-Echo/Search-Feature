@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import './App.css';
 import axios from 'axios';
 import { Stack } from '@fluentui/react/lib/Stack';
-import { Dropdown, DropdownMenuItemType } from '@fluentui/react/lib/Dropdown';
-//import React, { useState, useEffect } from 'react';
+import { Dropdown, TextField} from '@fluentui/react/lib';
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 
 
 class App extends Component {
@@ -12,12 +12,14 @@ class App extends Component {
     super(props);
 
     this.state = {
-      //config: ["author", "download_url","id"],
       allData: [],
-      filteredData: []
-      };
-      
-      //this.handleSearch = this.handleSearch.bind(this);      
+      filteredData: [],
+      firstTextFieldValue: [],
+      country: null, 
+      region: null,
+      isActive: true,
+      name: ""
+      };          
     }
     
     handleSearch (event, selectedOption) {
@@ -31,11 +33,39 @@ class App extends Component {
         console.log(data.author.search(value))
         return data.author.search(value) !== -1 ? true : false;
       });
+
       console.log(result)
-      this.setState({filteredData: result}, () => {
-        console.log(this.state.filteredData)
-      });
-      
+        this.setState({filteredData: result}, () => {
+          console.log(this.state.filteredData)
+      });      
+    }
+
+    selectCountry (val) {
+      console.log(val)
+      this.setState({ country: val });
+    }
+  
+    selectRegion (val) {
+      console.log(val)
+      this.setState({ region: val });
+    }
+
+    textField (val) {      
+      this.setState({firstTextFieldValue: val})
+    }
+
+    handleShow = () => {
+      this.setState({isActive: true})
+    }
+
+    handleHide = () => {
+      this.setState({isActive: false})
+    }
+    handleInput = event => {
+      this.setState({name: event.target.value})
+    }
+    logValue = () => {
+      console.log(this.state.name)
     }
 
   componentDidMount() {
@@ -45,14 +75,14 @@ class App extends Component {
       console.log(res.data)
 
       this.setState({allData: res.data});
-      console.log(this.state.allData);
+      //console.log(this.state.allData);
      
       this.setState({filteredData: res.data});
-      console.log(this.state.filteredData);
+      //console.log(this.state.filteredData);
       })
       .catch(error => {
-      console.log('Error getting data: ' + error);
-      })
+        console.log('Error getting data: ' + error);
+      })            
   }
 
     render () {   
@@ -60,90 +90,78 @@ class App extends Component {
       const dropdownStyles = {
         dropdown: { width: 300 },
       };
+
+      const textFieldStyles = { 
+        fieldGroup: { width: 300 } 
+      };
   
       const options = this.state.allData.map(obj => {
-        return { key: obj.author.replaceAll(" ", "_"), text: obj.author}
-      })
-      
-      
-      /*[ data
-      { key: 'plantHeader', text: 'Plants', itemType: DropdownMenuItemType.Header },
-      { key: 'ris', text: 'ris' },
-      { key: 'vatten', text: 'Vatten' },
-      { key: 'el', text: 'El', disabled: true },
-     
-     /*  { key: 'divider_1', text: '-', itemType: DropdownMenuItemType.Divider },
-      { key: 'vegetablesHeader', text: 'Vegetables', itemType: DropdownMenuItemType.Header },
-      { key: 'broccoli', text: 'Broccoli' },
-      { key: 'carrot', text: 'Carrot' },
-      { key: 'lettuce', text: 'Lettuce' }, */
-    //];
-
+        return { key: obj.author.replaceAll(" ", "_"), text: obj.author }
+      }) 
  
-     const filtered_Data = (evt, index) => {
-     console.log(evt.target.value) 
-/*         const itemData = index.data;
-        console.log(index.key, index.text);*/
-    } 
+      const onChangeFirstTextFieldValue = (event, newValue) => {
+          console.log(newValue);
+      }
 
-    const stackTokens = { childrenGap: 20 };
+      const { country, region } = this.state;      
+
+      const stackTokens = { childrenGap: 20 };   
 
       return (
         <Stack tokens={stackTokens}>
           <Dropdown
-            placeholder="Select an option"
-            label="Basic uncontrolled example"
+            id = "authorList"
+            placeholder="Select Author"
+            label="Dropdown Search"
             options={options}
             styles={dropdownStyles}
-            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}
-            //onChange = {filteredData}
-            //onChange = {(event) => filtered_Data(event)}
-            
-          />
-    
-          <Dropdown
-            label="Disabled example with defaultSelectedKey"
-            defaultSelectedKey="el"
-            options={options}
-            disabled={true}
-            styles={dropdownStyles}
-          />
-    
-          <Dropdown
-            placeholder="Select options"
-            label="Multi-select uncontrolled example"
-            defaultSelectedKeys={['apple', 'banana', 'grape']}
-            multiSelect
-            options={options}
-            styles={dropdownStyles}
-            //onChange = {(event) => this.handleSearch(event)}
-            //onChange = {onChange}
+            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}            
           />
           <div>
             { 
               this.state.filteredData.map( obj => {
-                return <li>{obj.author}</li>
+                return <ul><li>{obj.author}</li></ul>
               })
-            }
-            
+            }            
           </div>
+          <div>
+          <TextField
+            label = "Basic Text Field"
+            value = {this.firstTextFieldValue}
+            onChange = {onChangeFirstTextFieldValue}
+            styles = {textFieldStyles}
+          />
+          </div>
+          <div>
+            <CountryDropdown
+              value={country}
+              onChange={(val) => this.selectCountry(val)} 
+            />
+            <RegionDropdown
+              country={country}
+              value={region}
+              onChange={(val) => this.selectRegion(val)} 
+            />
+          </div>
+          <div>
+            {this.state.isActive ? <h2>Hello</h2> : null}
+            <button onClick = {this.handleShow}> Show </button>
+            <button onClick = {this.handleHide}> Hide </button>
+          </div>
+          <div>
+          <TextField
+            id="readvalue"
+            label = "Complete Name"
+            placeholder = "Enter Name"
+            //value = {this.handleInput}
+            onChange = {this.handleInput}
+            styles = {textFieldStyles}
+          />
+          <button onClick = {this.logValue}> Log Value </button>
+          </div>
+
         </Stack>
-
-/*           <div style={{padding:10}}>
-          filteredData(value,index){
-          return(
-            <div>
-              <div style={styles} key={value.id}>
-                {value.author}
-              </div>
-            </div>
-          )
-          }
-          </div>	 */
       );
-
-
-  }
-  
+  }  
 }
 export default App;
