@@ -28,7 +28,7 @@ class App extends Component {
   
       console.log(selectedOption);
 
-      if(selectedOption.text == 'Paul Jarvis') 
+      if(selectedOption.text === 'Paul Jarvis') 
       {
         console.log(selectedOption.text);
         this.handleShow1();
@@ -110,6 +110,10 @@ class App extends Component {
 
       const stackTokens = { childrenGap: 20 };   
 
+      const filteredOption = this.state.filteredData.map(obj => {
+        return {text: obj.author}
+      })
+
       return (
         <Stack tokens={stackTokens}>
           <div>           
@@ -119,18 +123,27 @@ class App extends Component {
             label="Dropdown Search"
             options={options}
             styles={dropdownStyles}
-            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}          
+            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}           
             />      
+            <div>
+              {this.state.isActive1 ? 
+                  <Dropdown
+                  placeholder='selected value'
+                  label='selected value'
+                  options= {filteredOption}
+                  styles={dropdownStyles}
+                  />               
+              : null}
           </div>
-          
+          </div>
+         
           <div>
           {this.state.isActive1 ? 
              this.state.filteredData.map( obj => {
                return <ul><li>{obj.author}</li></ul>
              })
-           : null}      
+           : null}
           </div>
-
           <div>
             <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
             <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
@@ -160,7 +173,7 @@ class App extends Component {
             onChange = {this.handleInput}
             styles = {textFieldStyles}
           />
-          <button onClick = {this.logValue}> Log Value </button>
+          <button onClick = {this.logValue}> Log Value at Console</button>
           </div>
         </Stack>
       );
