@@ -125,7 +125,7 @@ class App extends Component {
             styles={dropdownStyles}
             onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}           
             />      
-            <div>
+            
               {this.state.isActive1 ? 
                   <Dropdown
                   placeholder='selected value'
@@ -134,7 +134,7 @@ class App extends Component {
                   styles={dropdownStyles}
                   />               
               : null}
-          </div>
+          
           </div>
          
           <div>
@@ -144,16 +144,14 @@ class App extends Component {
              })
            : null}
           </div>
-          <div>
+          <div>        
             <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
             <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
-          </div>
-          <div>
-          {this.state.isActive2 ? 
-             this.state.allData.map( obj => {
-               return <ul><li>{obj.author}</li></ul>
-             })
-           : null}      
+            {this.state.isActive2 ? 
+              this.state.allData.map( obj => {
+                return <ul><li>{obj.author}</li></ul>
+              })
+            : null}      
           </div>
           <div>
           <TextField
