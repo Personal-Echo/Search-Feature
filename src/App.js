@@ -4,21 +4,21 @@ import './App.css';
 import axios from 'axios';
 import { Stack } from '@fluentui/react/lib/Stack';
 import { Dropdown, TextField} from '@fluentui/react/lib';
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+
 
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      allData: [],
-      filteredData: [],
-      firstTextFieldValue: [],
-      country: null, 
-      region: null,
-      isActive: true,
-      name: ""
+      this.state = {
+        allData: [],
+        filteredData: [],
+        firstTextFieldValue: [],
+        isActive1: false,
+        isActive2: false,
+
+        name: ""
       };          
     }
     
@@ -27,6 +27,13 @@ class App extends Component {
       let result = [];        
   
       console.log(selectedOption);
+
+      if(selectedOption.text == 'Paul Jarvis') 
+      {
+        console.log(selectedOption.text);
+        this.handleShow1();
+      }
+      else {this.handleHide1();}
 
       result = this.state.allData.filter((data) =>
       {
@@ -37,30 +44,28 @@ class App extends Component {
       console.log(result)
         this.setState({filteredData: result}, () => {
           console.log(this.state.filteredData)
-      });      
-    }
-
-    selectCountry (val) {
-      console.log(val)
-      this.setState({ country: val });
-    }
-  
-    selectRegion (val) {
-      console.log(val)
-      this.setState({ region: val });
+      });     
+     
     }
 
     textField (val) {      
       this.setState({firstTextFieldValue: val})
     }
 
-    handleShow = () => {
-      this.setState({isActive: true})
+    handleShow1 = () => {
+      this.setState({isActive1: true})
+    } 
+    handleHide1 = () => {
+      this.setState({isActive1: false})
     }
 
-    handleHide = () => {
-      this.setState({isActive: false})
+    handleShow2 = () => {
+      this.setState({isActive2: true})
+    } 
+    handleHide2 = () => {
+      this.setState({isActive2: false})
     }
+
     handleInput = event => {
       this.setState({name: event.target.value})
     }
@@ -101,28 +106,41 @@ class App extends Component {
  
       const onChangeFirstTextFieldValue = (event, newValue) => {
           console.log(newValue);
-      }
-
-      const { country, region } = this.state;      
+      } 
 
       const stackTokens = { childrenGap: 20 };   
 
       return (
         <Stack tokens={stackTokens}>
-          <Dropdown
+          <div>           
+            <Dropdown
             id = "authorList"
             placeholder="Select Author"
             label="Dropdown Search"
             options={options}
             styles={dropdownStyles}
-            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}            
-          />
+            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}          
+            />      
+          </div>
+          
           <div>
-            { 
-              this.state.filteredData.map( obj => {
-                return <ul><li>{obj.author}</li></ul>
-              })
-            }            
+          {this.state.isActive1 ? 
+             this.state.filteredData.map( obj => {
+               return <ul><li>{obj.author}</li></ul>
+             })
+           : null}      
+          </div>
+
+          <div>
+            <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
+            <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
+          </div>
+          <div>
+          {this.state.isActive2 ? 
+             this.state.allData.map( obj => {
+               return <ul><li>{obj.author}</li></ul>
+             })
+           : null}      
           </div>
           <div>
           <TextField
@@ -132,22 +150,7 @@ class App extends Component {
             styles = {textFieldStyles}
           />
           </div>
-          <div>
-            <CountryDropdown
-              value={country}
-              onChange={(val) => this.selectCountry(val)} 
-            />
-            <RegionDropdown
-              country={country}
-              value={region}
-              onChange={(val) => this.selectRegion(val)} 
-            />
-          </div>
-          <div>
-            {this.state.isActive ? <h2>Hello</h2> : null}
-            <button onClick = {this.handleShow}> Show </button>
-            <button onClick = {this.handleHide}> Hide </button>
-          </div>
+         
           <div>
           <TextField
             id="readvalue"
@@ -159,7 +162,6 @@ class App extends Component {
           />
           <button onClick = {this.logValue}> Log Value </button>
           </div>
-
         </Stack>
       );
   }  
