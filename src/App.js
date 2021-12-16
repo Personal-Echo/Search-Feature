@@ -140,16 +140,17 @@ class App extends Component {
           <div>
           {this.state.isActive1 ? 
              this.state.filteredData.map( obj => {
-               return <ul><li>{obj.author}</li></ul>
+               return <ul><li>{obj.author} - {obj.id}</li></ul>
              })
            : null}
           </div>
+          
           <div>        
             <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
             <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
             {this.state.isActive2 ? 
               this.state.allData.map( obj => {
-                return <ul><li>{obj.author}</li></ul>
+                return <ul><li>{obj.author} - {obj.id}</li></ul>
               })
             : null}      
           </div>
