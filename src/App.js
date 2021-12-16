@@ -116,43 +116,45 @@ class App extends Component {
 
       return (
         <Stack tokens={stackTokens}>
-          <div>           
-            <Dropdown
-            id = "authorList"
-            placeholder="Select Author"
-            label="Dropdown Search"
-            options={options}
-            styles={dropdownStyles}
-            onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}           
-            />      
-            
-              {this.state.isActive1 ? 
-                  <Dropdown
-                  placeholder='selected value'
-                  label='selected value'
-                  options= {filteredOption}
-                  styles={dropdownStyles}
-                  />               
-              : null}
-          
+          <div className='float-container'>
+            <div className='float-child-left'>
+              <Dropdown
+              id = "authorList"
+              placeholder="Select Author"
+              label="Dropdown Search"
+              options={options}
+              styles={dropdownStyles}
+              onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}           
+              />      
+              
+                {this.state.isActive1 ? 
+                    <Dropdown
+                    placeholder='selected value'
+                    label='selected value'
+                    options= {filteredOption}
+                    styles={dropdownStyles}
+                    />               
+                : null}
+
+                {this.state.isActive1 ? 
+                  this.state.filteredData.map( obj => {
+                    return <ul><li>{obj.author} - {obj.id}</li></ul>
+                  })
+                : null}
+           
+            </div>
           </div>
-         
-          <div>
-          {this.state.isActive1 ? 
-             this.state.filteredData.map( obj => {
-               return <ul><li>{obj.author} - {obj.id}</li></ul>
-             })
-           : null}
-          </div>
-          
-          <div>        
-            <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
-            <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
-            {this.state.isActive2 ? 
-              this.state.allData.map( obj => {
-                return <ul><li>{obj.author} - {obj.id}</li></ul>
-              })
-            : null}      
+
+          <div className='float-container'>    
+            <div className='float-child-left'>
+              <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
+              <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
+              {this.state.isActive2 ? 
+                this.state.allData.map( obj => {
+                  return <ul><li>{obj.author} - {obj.id}</li></ul>
+                })
+              : null}     
+            </div> 
           </div>
           <div>
           <TextField
