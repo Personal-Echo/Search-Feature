@@ -12,58 +12,76 @@ class App extends Component {
     super(props);
 
       this.state = {
-        allData: [],
+        data: [], 
+        filteredDataStates: {},
         filteredData: [],
-        firstTextFieldValue: [],
-        isActive1: false,
-        isActive2: false,
-
+        
+        config: {
+          filters: [
+            {
+              type: "dropdown",
+              id: "authorList",
+              placeholder: "Select Author",
+              label: "Dropdown Search 1 ",
+              dataReference: "author"
+            },
+            {
+              type: "dropdown",
+              id: "authorID",
+              placeholder: "Select ID",
+              label: "Dropdown Search 2",
+              dataReference: "id"
+            },
+            {
+              type: "dropdown",
+              id: "authorURL",
+              placeholder: "Select URL",
+              label: "Dropdown Search 3",
+              dataReference: "url"
+            }
+          ]
+        },
         name: ""
       };          
     }
     
-    handleSearch (event, selectedOption) {
+    handleSearch (event, selectedOption, dataReference, filterId) {
       let value = selectedOption.text;
+      
       let result = [];        
   
-      console.log(selectedOption);
-
-      if(selectedOption.text === 'Paul Jarvis') 
+      console.log(selectedOption);     
+      
+      result = this.state.filteredData.filter((data) =>
       {
-        console.log(selectedOption.text);
-        this.handleShow1();
-      }
-      else {this.handleHide1();}
-
-      result = this.state.allData.filter((data) =>
-      {
-        console.log(data.author.search(value))
-        return data.author.search(value) !== -1 ? true : false;
+        console.log(data[dataReference].search(value))
+        return data[dataReference].search(value) !== -1 ? true : false;        
       });
-
       console.log(result)
-        this.setState({filteredData: result}, () => {
+        let currentFilterState = {}
+        currentFilterState[filterId] = this.state.filteredData
+        this.setState({
+          config: { 
+            filters: this.state.config.filters.map( filter => {
+              if(filter.id == filterId) {
+                return { ...filter, data: this.state.filteredData }
+              } else {
+                return filter
+              }
+            })
+          }
+        })
+
+        this.setState({
+          filteredDataStates: {
+            ...this.state.filteredDataStates,
+            ...currentFilterState
+          },
+          filteredData: result
+        }, () => {
           console.log(this.state.filteredData)
-      });     
-     
-    }
-
-    textField (val) {      
-      this.setState({firstTextFieldValue: val})
-    }
-
-    handleShow1 = () => {
-      this.setState({isActive1: true})
-    } 
-    handleHide1 = () => {
-      this.setState({isActive1: false})
-    }
-
-    handleShow2 = () => {
-      this.setState({isActive2: true})
-    } 
-    handleHide2 = () => {
-      this.setState({isActive2: false})
+          console.log(this.state.filteredDataStates)
+      });           
     }
 
     handleInput = event => {
@@ -79,17 +97,21 @@ class App extends Component {
       .then(res => {
       console.log(res.data)
 
-      this.setState({allData: res.data});
-      //console.log(this.state.allData);
-     
+      this.setState({
+        data: res.data,
+        filteredData: res.data,
+        filteredDataStates: {
+          origin: res.data
+        }
+      });
+          
       this.setState({filteredData: res.data});
-      //console.log(this.state.filteredData);
+      
       })
       .catch(error => {
         console.log('Error getting data: ' + error);
       })            
   }
-
     render () {   
 
       const dropdownStyles = {
@@ -100,81 +122,36 @@ class App extends Component {
         fieldGroup: { width: 300 } 
       };
   
-      const options = this.state.allData.map(obj => {
-        return { key: obj.author.replaceAll(" ", "_"), text: obj.author }
-      }) 
- 
-      const onChangeFirstTextFieldValue = (event, newValue) => {
-          console.log(newValue);
-      } 
+      const getOptions = (dataReference, data) => {
+        if(data) {
+          return data.map(obj => {
+            return { key: obj[dataReference].replaceAll(" ", "_"), text: obj[dataReference] }
+          })
+        } else {
+          return this.state.filteredData.map(obj => {
+            return { key: obj[dataReference].replaceAll(" ", "_"), text: obj[dataReference] }
+          })
+        }
+      }
 
       const stackTokens = { childrenGap: 20 };   
-
-      const filteredOption = this.state.filteredData.map(obj => {
-        return {text: obj.author}
-      })
-
-      return (
+       return (
         <Stack tokens={stackTokens}>
           <div className='float-container'>
             <div className='float-child-left'>
-              <Dropdown
-              id = "authorList"
-              placeholder="Select Author"
-              label="Dropdown Search"
-              options={options}
-              styles={dropdownStyles}
-              onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption)}           
-              />      
-              
-                {this.state.isActive1 ? 
-                    <Dropdown
-                    placeholder='selected value'
-                    label='selected value'
-                    options= {filteredOption}
-                    styles={dropdownStyles}
-                    />               
-                : null}
-
-                {this.state.isActive1 ? 
-                  this.state.filteredData.map( obj => {
-                    return <ul><li>{obj.author} - {obj.id}</li></ul>
-                  })
-                : null}
-           
+              {
+                this.state.config.filters.map(filter => {
+                    return <Dropdown
+                      id={filter.id}
+                      placeholder={filter.placeholder}
+                      label={filter.label}
+                      options={getOptions(filter.dataReference, filter.data ? filter.data : undefined)}
+                      styles={dropdownStyles}
+                      onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption, filter.dataReference, filter.id)}
+                    />                    
+                })                
+              }                         
             </div>
-          </div>
-
-          <div className='float-container'>    
-            <div className='float-child-left'>
-              <button onClick = {this.handleShow2} styles = {textFieldStyles}> Show </button>
-              <button onClick = {this.handleHide2} styles = {textFieldStyles}> Hide </button>
-              {this.state.isActive2 ? 
-                this.state.allData.map( obj => {
-                  return <ul><li>{obj.author} - {obj.id}</li></ul>
-                })
-              : null}     
-            </div> 
-          </div>
-          <div>
-          <TextField
-            label = "Basic Text Field"
-            value = {this.firstTextFieldValue}
-            onChange = {onChangeFirstTextFieldValue}
-            styles = {textFieldStyles}
-          />
-          </div>
-         
-          <div>
-          <TextField
-            id="readvalue"
-            label = "Complete Name"
-            placeholder = "Enter Name"
-            //value = {this.handleInput}
-            onChange = {this.handleInput}
-            styles = {textFieldStyles}
-          />
-          <button onClick = {this.logValue}> Log Value at Console</button>
           </div>
         </Stack>
       );
