@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './App.css';
 import axios from 'axios';
 import { Stack } from '@fluentui/react/lib/Stack';
-import { Dropdown, TextField} from '@fluentui/react/lib';
+import { Dropdown, DefaultButton } from '@fluentui/react/lib';
 
 
 
@@ -13,8 +13,9 @@ class App extends Component {
 
       this.state = {
         data: [], 
-        filteredDataStates: {},
         filteredData: [],
+        filteredDataStates: {},
+        resetValues: false,
         
         config: {
           filters: [
@@ -46,6 +47,7 @@ class App extends Component {
     }
     
     handleSearch (event, selectedOption, dataReference, filterId) {
+
       let value = selectedOption.text;
       
       let result = [];        
@@ -84,13 +86,34 @@ class App extends Component {
       });           
     }
 
-    handleInput = event => {
-      this.setState({name: event.target.value})
-    }
-    logValue = () => {
-      console.log(this.state.name)
+    resetState = () => {
+          this.setState({filteredData: this.state.data},
+            () => console.log(this.state.filteredData)
+          )
+
+        this.setState({
+          filteredDataStates: this.state.data
+        }, () => console.log(this.state.filteredDataStates
+          ))
+
+         /*  this.setState({
+            config: this.state.data
+          }, () => console.log(this.state.config
+            ))  */
+
+      this.setState({resetValues: true})
+      //console.log(this.filteredDataStates)
+      //console.log(this.filteredData)
     }
 
+
+/*     handleClick = () => {
+      this.setState({
+        hasBeenClicked: true
+      }, () => console.log(this.state.hasBeenClicked)) // prints true
+    }
+ */
+    
   componentDidMount() {
     
       axios.get('https://picsum.photos/v2/list?limit=2000')
@@ -116,11 +139,7 @@ class App extends Component {
 
       const dropdownStyles = {
         dropdown: { width: 300 },
-      };
-
-      const textFieldStyles = { 
-        fieldGroup: { width: 300 } 
-      };
+      };      
   
       const getOptions = (dataReference, data) => {
         if(data) {
@@ -150,7 +169,11 @@ class App extends Component {
                       onChange = {(event, selectedOption) => this.handleSearch(event, selectedOption, filter.dataReference, filter.id)}
                     />                    
                 })                
-              }                         
+              }      
+               <p>I have {this.state.resetValues ? null : "not"} been clicked!</p>
+              <DefaultButton text="Reset Selection" onClick= {this.resetState}/>
+               
+             
             </div>
           </div>
         </Stack>
