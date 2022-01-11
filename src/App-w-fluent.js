@@ -1,7 +1,13 @@
+//implmentation done using fluent ui
+
 //import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import axios from 'axios';
+//import { Stack } from '@fluentui/react/lib/Stack';
+//import { Dropdown } from '@fluentui/react/lib';
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +58,7 @@ class App extends Component {
     this.setState ({filteredData1: []})
   
     document.getElementById("authorname").selectedIndex = 0; //1 = option 2  
-  }
+  } 
 
   componentDidMount() {
     axios.get('https://picsum.photos/v2/list?limit=2000')
@@ -68,13 +74,13 @@ class App extends Component {
     .catch(error => {
       console.log('Error getting data: ' + error);
     })            
-}
+  }
 
   render() {   
     return (            
       <div className='float-container'>
         <div className='float-child-left'>
-          <label>Search Author</label>      
+          <label>Search Author:   </label>      
           
           <br></br>    
           <select id='authorname' onChange={(event) => this.handleSearch(event)} >

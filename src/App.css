@@ -41,17 +41,63 @@
 .float-container {
   border: 3px solid #fff;
   padding: 20px;
+  outline: 0;
 }
 
-.float-child-left{
+.float-child-left{  
+  width: 50%;
+  font-size: large;
+  padding: 15px 6px 20px 20px;
+  background: #fff;
+  border: 3px solid rgb(201, 22, 22);
+  border-radius: 6px;
+  position: relative;
+  float: left;
+}
+
+.float-child-right{
   width: 50%;
   float: left;
   padding: 20px;
-  border: 2px solid red;
+  border: 3px solid red;
 }
-.float-child-right{
-  width: 20%;
-  float: right;
-  padding: 10px;
-  border: 2px solid red;
+select {
+  outline: 0ch;
+  margin: 10px;
+  width: 150px;
+  padding: 5px 20px 5px 5px;
+  font-size: 14px;
+  border: 1px solid #CCC;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://stackoverflow.com/favicon.ico) 96% / 15% no-repeat #EEE;
 }
+
+button {  
+  margin: 10px;
+  width: 100px;
+  padding: 5px 10px 20px 5px;
+  font-size: 12px;
+  border: 3px solid #CCC;
+  height: 10px; 
+  appearance: none;
+  background: #EEE;
+  float: left;
+}
+
+label{ 
+  font-size: large;
+  padding: 15px 80px 20px 26px;
+  background: #fff;
+  border-radius: none;
+  position: relative;
+  float: left;
+}
+
+
+button:hover{background-color:orange;}
+
+button:focus{background-color:rgb(219, 157, 157);}
+
