@@ -84,7 +84,7 @@ button {
   height: 10px; 
   appearance: none;
   background: #EEE;
-  float: left;
+  float: right;
 }
 
 label{ 
