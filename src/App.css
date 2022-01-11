@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  text-align: left;
+  max-width: 40rem;  
+  margin: 2rem auto;  
 }
 
 .App-logo {
@@ -44,7 +46,7 @@
 .float-child-left{
   width: 50%;
   float: left;
-  padding: 10px;
+  padding: 20px;
   border: 2px solid red;
 }
 .float-child-right{
