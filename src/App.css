@@ -1,7 +1,9 @@
 .App {
   text-align: left;
-  max-width: 40rem;  
-  margin: 2rem auto;  
+  max-width: 80rem;  
+  margin: 1rem;  
+  border: 3px solid rgb(114, 75, 151);
+  height: 50rem;
 }
 
 .App-logo {
@@ -38,66 +40,83 @@
     transform: rotate(360deg);
   }
 }
-.float-container {
-  border: 3px solid #fff;
-  padding: 20px;
-  outline: 0;
-}
 
 .float-child-left{  
-  width: 50%;
-  font-size: large;
-  padding: 15px 6px 20px 20px;
+  width:15rem;
+  padding: 5px 5px 5px 5px;
   background: #fff;
   border: 3px solid rgb(201, 22, 22);
   border-radius: 6px;
-  position: relative;
   float: left;
 }
 
 .float-child-right{
-  width: 50%;
+  width:20rem;
+  padding: 5px 5px 5px 5px;
+  background: #fff;
+  border: 3px solid rgb(201, 22, 22);
+  border-radius: 6px;
   float: left;
-  padding: 20px;
-  border: 3px solid red;
 }
 select {
-  outline: 0ch;
   margin: 10px;
   width: 150px;
-  padding: 5px 20px 5px 5px;
-  font-size: 14px;
+  padding: 5px 10px 5px 5px;
+  font-size: 12px;
   border: 1px solid #CCC;
-  height: 34px;
+  height: 24px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url(https://stackoverflow.com/favicon.ico) 96% / 15% no-repeat #EEE;
+  float: left;
+  background: url(icon.ico) 98% / 10% no-repeat #EEE;
 }
 
 button {  
   margin: 10px;
-  width: 100px;
+  width: 90px;
   padding: 5px 10px 20px 5px;
   font-size: 12px;
   border: 3px solid #CCC;
-  height: 10px; 
+  height: 0px; 
   appearance: none;
   background: #EEE;
-  float: right;
+  float: left;
 }
 
 label{ 
-  font-size: large;
-  padding: 15px 80px 20px 26px;
+  font-size: small;
+  padding: 1px 5px 3px 15px;
   background: #fff;
   border-radius: none;
   position: relative;
   float: left;
 }
 
+button:hover{background-color:rgb(155, 161, 177);}
 
-button:hover{background-color:orange;}
+button:focus{background-color:rgb(164, 219, 157);}
 
-button:focus{background-color:rgb(219, 157, 157);}
+* {
+  box-sizing: border-box;
+}
 
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row {
+  content:"";
+  display: flex;
+  clear: both;
+}
+
+.grid_list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
