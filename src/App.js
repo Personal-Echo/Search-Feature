@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component, Fragment} from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import Select from "react-select";
 
