@@ -1,9 +1,7 @@
 .App {
   text-align: left;
-  max-width: 80rem;  
-  margin: 1rem;  
-  border: 3px solid rgb(114, 75, 151);
-  height: 50rem;
+  max-width: 10rem;  
+  margin: 2rem auto;  
 }
 
 .App-logo {
@@ -40,45 +38,50 @@
     transform: rotate(360deg);
   }
 }
+.float-container {
+  border: 3px solid #fff;
+  padding: 20px;
+  outline: 0;
+}
 
-.float-child-left{  
-  width:15rem;
-  padding: 5px 5px 5px 5px;
+.float-child-left {  
+  width: 30%;
+  font-size: large;
+  padding: 15px 1px 10px 20px;
   background: #fff;
   border: 3px solid rgb(201, 22, 22);
   border-radius: 6px;
+  position: relative;
   float: left;
 }
 
 .float-child-right{
-  width:20rem;
-  padding: 5px 5px 5px 5px;
-  background: #fff;
-  border: 3px solid rgb(201, 22, 22);
-  border-radius: 6px;
+  width: 50%;
   float: left;
+  padding: 20px;
+  border: 3px solid red;
 }
 select {
+  outline: 0ch;
   margin: 10px;
-  width: 150px;
+  width: 100px;
   padding: 5px 10px 5px 5px;
   font-size: 12px;
   border: 1px solid #CCC;
-  height: 24px;
+  height: 25px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  float: left;
-  background: url(icon.ico) 98% / 10% no-repeat #EEE;
+  background: url(icon.ico) 96% / 15% no-repeat #EEE;
 }
 
 button {  
   margin: 10px;
-  width: 90px;
-  padding: 5px 10px 20px 5px;
-  font-size: 12px;
+  width: 100px;
+  padding: 5px 10px 15px 5px;
+  font-size: 10px;
   border: 3px solid #CCC;
-  height: 0px; 
+  height: 1px; 
   appearance: none;
   background: #EEE;
   float: left;
@@ -86,37 +89,15 @@ button {
 
 label{ 
   font-size: small;
-  padding: 1px 5px 3px 15px;
+  padding: 10px 5px 5px 15px;
   background: #fff;
   border-radius: none;
   position: relative;
   float: left;
 }
 
-button:hover{background-color:rgb(155, 161, 177);}
 
-button:focus{background-color:rgb(164, 219, 157);}
+button:hover{background-color:orange;}
 
-* {
-  box-sizing: border-box;
-}
+button:focus{background-color:rgb(219, 157, 157);}
 
-/* Create two equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row {
-  content:"";
-  display: flex;
-  clear: both;
-}
-
-.grid_list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
