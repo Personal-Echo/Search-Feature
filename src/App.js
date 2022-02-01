@@ -95,6 +95,44 @@ class App extends Component {
     doc.close();
   }
 
+  /*filterOptions(options, filterValue, excludeOptions, props) {
+    var _this = this;
+    var patternSearch = false;
+
+    if(filterValue.contains("*")) {
+      filterValue = filterValue.replace(/[*]/g, "[a-zA-Z0-9]*");
+        patternSearch = true;
+    }
+
+    if (props.ignoreCase) {
+      filterValue = filterValue.toLowerCase();
+    }
+
+    if (excludeOptions) excludeOptions = excludeOptions.map(function (i) {
+      return i[props.valueKey];
+    });
+
+    return options.filter(function (option) {
+      if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
+      if (props.filterOption) return props.filterOption.call(_this, option, filterValue);
+      if (!filterValue) return true;
+      var valueTest = String(option[props.valueKey]);
+      var labelTest = String(option[props.labelKey]);
+
+      if (props.ignoreCase) {
+        if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
+        if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
+      }
+
+      if (patternSearch) {
+        return props.matchProp !== 'value' && labelTest.match(sfilterValue);
+      }
+      else {
+        return props.matchPos === 'start' ? props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue || props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue : props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0 || props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0;
+      }
+    });
+  }*/
+  
   componentDidMount() {
     axios
       .get("https://picsum.photos/v2/list?limit=2000")
@@ -135,6 +173,8 @@ class App extends Component {
             onChange={(event) => this.handleSearch(event)}
             ref={ref => { this.select = ref; }}
             isSearchable  
+            //filterOption = {this.filterOptions}
+            //filterValue={this.state.allData}
           />
   
           <br></br>
