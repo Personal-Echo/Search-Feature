@@ -132,7 +132,7 @@ class App extends Component {
       }
     });
   }*/
-  
+
   componentDidMount() {
     axios
       .get("https://picsum.photos/v2/list?limit=2000")

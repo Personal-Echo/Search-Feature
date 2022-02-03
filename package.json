@@ -15,11 +15,9 @@
     "office-ui-fabric-react": "^7.180.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.3",
-    "react-country-region-selector": "^3.4.0",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.2",
-    "tachyons": "^4.12.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -28,6 +26,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "scripts": {
+    "start": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
